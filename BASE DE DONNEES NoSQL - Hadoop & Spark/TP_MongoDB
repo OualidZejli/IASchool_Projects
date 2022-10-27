@@ -1,0 +1,141 @@
+Last login: Thu Oct 20 15:38:35 on ttys001
+(base) oualidzejli@MacBook-Pro-de-Oualid ~ % mongo
+MongoDB shell version v5.0.6
+connecting to: mongodb://127.0.0.1:27017/?compressors=disabled&gssapiServiceName=mongodb
+Implicit session: session { "id" : UUID("83fdc61f-2d82-4026-b198-9b4b060d91cc") }
+MongoDB server version: 5.0.6
+================
+Warning: the "mongo" shell has been superseded by "mongosh",
+which delivers improved usability and compatibility.The "mongo" shell has been deprecated and will be removed in
+an upcoming release.
+For installation instructions, see
+https://docs.mongodb.com/mongodb-shell/install/
+================
+---
+The server generated these startup warnings when booting: 
+        2022-10-20T12:32:16.432+02:00: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+---
+---
+        Enable MongoDB's free cloud-based monitoring service, which will then receive and display
+        metrics about your deployment (disk utilization, CPU, operation statistics, etc).
+
+        The monitoring data will be available on a MongoDB website with a unique URL accessible to you
+        and anyone you share the URL with. MongoDB may use this information to make product
+        improvements and to suggest MongoDB products and deployment options to you.
+
+        To enable free monitoring, run the following command: db.enableFreeMonitoring()
+        To permanently disable this reminder, run the following command: db.disableFreeMonitoring()
+---
+> use TPnote
+switched to db TPnote
+> db
+TPnote
+> db.createCollection('restaurants');
+{ "ok" : 1 }
+> db.restaurants.insert({
+... "borough": "Bronx",
+... "cuisine": "Bakery",
+... "grades": [
+... { "date": "06/09/2021", "grade": "A", "score": 2 },
+... { "date": "16/10/2021", "grade": "A", "score": 6 }
+... ],
+... "name": "Morris Park Bake Shop"
+... })
+WriteResult({ "nInserted" : 1 })
+> db.restaurants.find();
+{ "_id" : ObjectId("635a47d43c7cef567c4f6946"), "borough" : "Bronx", "cuisine" : "Bakery", "grades" : [ { "date" : "06/09/2021", "grade" : "A", "score" : 2 }, { "date" : "16/10/2021", "grade" : "A", "score" : 6 } ], "name" : "Morris Park Bake Shop" }
+> db.restaurants.find().pretty();
+{
+	"_id" : ObjectId("635a47d43c7cef567c4f6946"),
+	"borough" : "Bronx",
+	"cuisine" : "Bakery",
+	"grades" : [
+		{
+			"date" : "06/09/2021",
+			"grade" : "A",
+			"score" : 2
+		},
+		{
+			"date" : "16/10/2021",
+			"grade" : "A",
+			"score" : 6
+		}
+	],
+	"name" : "Morris Park Bake Shop"
+}
+> db.restaurants.update({"_id" : ObjectId("635a47d43c7cef567c4f6946")}, {$set:{"adress": { "building": "1007", "coord": [ -73.856077, 40.848447 ], "street": "Morris Park Ave", "zipcode": "10462" }}});
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.restaurants.find().pretty();
+{
+	"_id" : ObjectId("635a47d43c7cef567c4f6946"),
+	"borough" : "Bronx",
+	"cuisine" : "Bakery",
+	"grades" : [
+		{
+			"date" : "06/09/2021",
+			"grade" : "A",
+			"score" : 2
+		},
+		{
+			"date" : "16/10/2021",
+			"grade" : "A",
+			"score" : 6
+		}
+	],
+	"name" : "Morris Park Bake Shop",
+	"adress" : {
+		"building" : "1007",
+		"coord" : [
+			-73.856077,
+			40.848447
+		],
+		"street" : "Morris Park Ave",
+		"zipcode" : "10462"
+	}
+}
+> db.restaurants.update({"_id" : ObjectId("635a47d43c7cef567c4f6946")}, {$set:{"grades" : [ { "date" : "06/09/2021", "grade" : "A", "score" : 2 }, { "date" : "16/10/2021", "grade" : "A", "score" : 6 }, { "date": "25/10/2021", "grade": "A", "score": 10 }, { "date": "01/12/2021", "grade": "A", "score": 9 }, { "date": "26/01/2022", "grade": "B", "score": 14 } ]}});
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.restaurants.find().pretty();
+{
+	"_id" : ObjectId("635a47d43c7cef567c4f6946"),
+	"borough" : "Bronx",
+	"cuisine" : "Bakery",
+	"grades" : [
+		{
+			"date" : "06/09/2021",
+			"grade" : "A",
+			"score" : 2
+		},
+		{
+			"date" : "16/10/2021",
+			"grade" : "A",
+			"score" : 6
+		},
+		{
+			"date" : "25/10/2021",
+			"grade" : "A",
+			"score" : 10
+		},
+		{
+			"date" : "01/12/2021",
+			"grade" : "A",
+			"score" : 9
+		},
+		{
+			"date" : "26/01/2022",
+			"grade" : "B",
+			"score" : 14
+		}
+	],
+	"name" : "Morris Park Bake Shop",
+	"adress" : {
+		"building" : "1007",
+		"coord" : [
+			-73.856077,
+			40.848447
+		],
+		"street" : "Morris Park Ave",
+		"zipcode" : "10462"
+	}
+}
+> 
