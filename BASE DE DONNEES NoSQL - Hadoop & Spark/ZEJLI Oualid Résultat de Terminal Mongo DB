@@ -1,0 +1,190 @@
+Last login: Mon May 23 15:15:50 on ttys001
+(base) oualidzejli@MacBook-Pro-de-Oualid ~ % mongo
+MongoDB shell version v5.0.6
+connecting to: mongodb://127.0.0.1:27017/?compressors=disabled&gssapiServiceName=mongodb
+Implicit session: session { "id" : UUID("57e1948f-8587-4508-b993-390978a6f29e") }
+MongoDB server version: 5.0.6
+================
+Warning: the "mongo" shell has been superseded by "mongosh",
+which delivers improved usability and compatibility.The "mongo" shell has been deprecated and will be removed in
+an upcoming release.
+For installation instructions, see
+https://docs.mongodb.com/mongodb-shell/install/
+================
+---
+The server generated these startup warnings when booting: 
+        2022-05-23T15:13:49.904+02:00: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+---
+---
+        Enable MongoDB's free cloud-based monitoring service, which will then receive and display
+        metrics about your deployment (disk utilization, CPU, operation statistics, etc).
+
+        The monitoring data will be available on a MongoDB website with a unique URL accessible to you
+        and anyone you share the URL with. MongoDB may use this information to make product
+        improvements and to suggest MongoDB products and deployment options to you.
+
+        To enable free monitoring, run the following command: db.enableFreeMonitoring()
+        To permanently disable this reminder, run the following command: db.disableFreeMonitoring()
+---
+> use rainforest
+switched to db rainforest
+> db
+rainforest
+> db.video_recordings.insert({"id":1, "Title":"Les Miserables", "Director":"Tom Hooper", "RunTime": 158})
+WriteResult({ "nInserted" : 1 })
+> db.persons.find()
+> db.video_recordings.find()
+{ "_id" : ObjectId("628b8a909aae8b9d9dd826c5"), "id" : 1, "Title" : "Les Miserables", "Director" : "Tom Hooper", "RunTime" : 158 }
+> db.video_recordings.find().pretty()
+{
+	"_id" : ObjectId("628b8a909aae8b9d9dd826c5"),
+	"id" : 1,
+	"Title" : "Les Miserables",
+	"Director" : "Tom Hooper",
+	"RunTime" : 158
+}
+> db.video_recordings.update({id: 1}, {$set:{Download: [{"date": "25/10/2021", "time": "12:10:25"},{"date": "25/10/2021", "time": "19:00:59"},{"date": "01/12/2021", "time": "07:37:15"}]}})
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.video_recordings.find().pretty()
+{
+	"_id" : ObjectId("628b8a909aae8b9d9dd826c5"),
+	"id" : 1,
+	"Title" : "Les Miserables",
+	"Director" : "Tom Hooper",
+	"RunTime" : 158,
+	"Download" : [
+		{
+			"date" : "25/10/2021",
+			"time" : "12:10:25"
+		},
+		{
+			"date" : "25/10/2021",
+			"time" : "19:00:59"
+		},
+		{
+			"date" : "01/12/2021",
+			"time" : "07:37:15"
+		}
+	]
+}
+> db.video_recordings.insert([{"id":2, "Title":"Skyfall", "Director":"Sam Mendes", "RunTime": 137}, {"id":3, "Title":"The Tall Men", "Director":"Raoul Walsh", "RunTime": 117}]);
+BulkWriteResult({
+	"writeErrors" : [ ],
+	"writeConcernErrors" : [ ],
+	"nInserted" : 2,
+	"nUpserted" : 0,
+	"nMatched" : 0,
+	"nModified" : 0,
+	"nRemoved" : 0,
+	"upserted" : [ ]
+})
+> db.video_recordings.update({id: 2}, {$set:{Download: [{"date": "01/02/2022", "time": "01:27:12"},{"date": "16/03/2022", "time": "20:00:18"}]}});
+WriteResult({ "nMatched" : 1, "nUpserted" : 0, "nModified" : 1 })
+> db.video_recordings.find().pretty();
+{
+	"_id" : ObjectId("628b8a909aae8b9d9dd826c5"),
+	"id" : 1,
+	"Title" : "Les Miserables",
+	"Director" : "Tom Hooper",
+	"RunTime" : 158,
+	"Download" : [
+		{
+			"date" : "25/10/2021",
+			"time" : "12:10:25"
+		},
+		{
+			"date" : "25/10/2021",
+			"time" : "19:00:59"
+		},
+		{
+			"date" : "01/12/2021",
+			"time" : "07:37:15"
+		}
+	]
+}
+{
+	"_id" : ObjectId("628b8e219aae8b9d9dd826c6"),
+	"id" : 2,
+	"Title" : "Skyfall",
+	"Director" : "Sam Mendes",
+	"RunTime" : 137,
+	"Download" : [
+		{
+			"date" : "01/02/2022",
+			"time" : "01:27:12"
+		},
+		{
+			"date" : "16/03/2022",
+			"time" : "20:00:18"
+		}
+	]
+}
+{
+	"_id" : ObjectId("628b8e219aae8b9d9dd826c7"),
+	"id" : 3,
+	"Title" : "The Tall Men",
+	"Director" : "Raoul Walsh",
+	"RunTime" : 117
+}
+> db.video_recordings.find({Director:"Raoul Walsh"});
+{ "_id" : ObjectId("628b8e219aae8b9d9dd826c7"), "id" : 3, "Title" : "The Tall Men", "Director" : "Raoul Walsh", "RunTime" : 117 }
+> db.video_recordings.find({ "RunTime" : { $gte :  110, $lte : 140}});
+{ "_id" : ObjectId("628b8e219aae8b9d9dd826c6"), "id" : 2, "Title" : "Skyfall", "Director" : "Sam Mendes", "RunTime" : 137, "Download" : [ { "date" : "01/02/2022", "time" : "01:27:12" }, { "date" : "16/03/2022", "time" : "20:00:18" } ] }
+{ "_id" : ObjectId("628b8e219aae8b9d9dd826c7"), "id" : 3, "Title" : "The Tall Men", "Director" : "Raoul Walsh", "RunTime" : 117 }
+> db.video_recordings.find({ "RunTime" : { $gte :  110, $lte : 140}}).pretty();
+{
+	"_id" : ObjectId("628b8e219aae8b9d9dd826c6"),
+	"id" : 2,
+	"Title" : "Skyfall",
+	"Director" : "Sam Mendes",
+	"RunTime" : 137,
+	"Download" : [
+		{
+			"date" : "01/02/2022",
+			"time" : "01:27:12"
+		},
+		{
+			"date" : "16/03/2022",
+			"time" : "20:00:18"
+		}
+	]
+}
+{
+	"_id" : ObjectId("628b8e219aae8b9d9dd826c7"),
+	"id" : 3,
+	"Title" : "The Tall Men",
+	"Director" : "Raoul Walsh",
+	"RunTime" : 117
+}
+> db.video_recordings.deleteOne({"Title" : "Skyfall"});
+{ "acknowledged" : true, "deletedCount" : 1 }
+> db.video_recordings.find().pretty();
+{
+	"_id" : ObjectId("628b8a909aae8b9d9dd826c5"),
+	"id" : 1,
+	"Title" : "Les Miserables",
+	"Director" : "Tom Hooper",
+	"RunTime" : 158,
+	"Download" : [
+		{
+			"date" : "25/10/2021",
+			"time" : "12:10:25"
+		},
+		{
+			"date" : "25/10/2021",
+			"time" : "19:00:59"
+		},
+		{
+			"date" : "01/12/2021",
+			"time" : "07:37:15"
+		}
+	]
+}
+{
+	"_id" : ObjectId("628b8e219aae8b9d9dd826c7"),
+	"id" : 3,
+	"Title" : "The Tall Men",
+	"Director" : "Raoul Walsh",
+	"RunTime" : 117
+}
+> 
